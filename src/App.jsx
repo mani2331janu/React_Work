@@ -1,16 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Todo from './component/todo/Todo'
-function App() {
-  const [count, setCount] = useState(0)
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./component/layout/Layout";
+import Home from "./component/pages/Home";
+import Todo from "./component/todo/Todo";
+export default function App() {
   return (
-    <>
-      <Todo/>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* This goes inside <Outlet /> */}
+          <Route index element={<Home />} />
+          <Route path="todo" element={<Todo />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App
