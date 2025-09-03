@@ -10,34 +10,28 @@ export default function AppSidebar() {
         ".ps-sidebar-container": {
           backgroundColor: "#eeeff0",
           color: "#333",
-          height: "100vh",
+          // height: "100vh",
         },
       }}
     >
       <Menu>
         <MenuItem component={<Link to="/" />} active={pathname === "/"}>
-          Home
+          Dashboard
         </MenuItem>
 
         {/* Product SubMenu */}
         <SubMenu label="Product" defaultOpen={pathname.startsWith("/product")}>
           <MenuItem
+            component={<Link to="/product" />}
+            active={pathname === "/product"}
+          >
+             Product
+          </MenuItem>
+          <MenuItem
             component={<Link to="/product/list" />}
             active={pathname === "/product/list"}
           >
             Product List
-          </MenuItem>
-          <MenuItem
-            component={<Link to="/product/add" />}
-            active={pathname === "/product/add"}
-          >
-            Add Product
-          </MenuItem>
-          <MenuItem
-            component={<Link to="/product/categories" />}
-            active={pathname === "/product/categories"}
-          >
-            Categories
           </MenuItem>
         </SubMenu>
 
