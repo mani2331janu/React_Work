@@ -4,6 +4,7 @@ import Dashboard from "./component/pages/Dashboard";
 import Todo from "./component/todo/Todo";
 import Product from "./component/pages/Product/Product";
 import Product_list from "./component/pages/Product/Product_list";
+import NewProduct from "./component/pages/Product/NewProduct";
 export default function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,8 @@ export default function App() {
           <Route path="todo" element={<Todo />} />
           <Route path="/product" element={<Product/>}/>
           <Route path="/product/list" element={<Product_list/>}/>
+          <Route path="/product/add" element={<NewProduct/>}/>
+
 
         </Route>
       </Routes>

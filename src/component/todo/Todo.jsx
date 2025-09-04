@@ -1,136 +1,149 @@
 import React, { useState } from "react";
-import "../todo/Todo.css";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { GrView } from "react-icons/gr";
 
 const Todo = () => {
-  // Todo items
   const [item, setItem] = useState([
-    { id: 1, name: "jsx", checked: true },
-    { id: 2, name: "jsx & HTML", checked: true },
-    { id: 3, name: "js", checked: false },
+    { id: 1, name: "Learn React", checked: false },
+    { id: 2, name: "Build Todo App", checked: true },
   ]);
-
-  // New item input
   const [newItem, setNewItem] = useState("");
-
-  // Edit mode
   const [isEditing, setIsEditing] = useState(false);
-  const [currentElementId, setCurrentElementId] = useState();
-
-  // View selected item
+  const [editId, setEditId] = useState(null);
   const [getViewItem, setGetViewItem] = useState(null);
 
-  // Checkbox toggle
-  function handleChange(id) {
-    const checkedList = item.map((t) =>
-      t.id === id ? { ...t, checked: !t.checked } : t
-    );
-    setItem(checkedList);
-  }
-
-  // Edit button
-  function handleEditSave(id) {
-    const editItem = item.find((t) => t.id === id);
-    setNewItem(editItem.name);
-    setIsEditing(true);
-    setCurrentElementId(id);
-  }
-
-  // Delete item
-  function handleDelete(id) {
-    const deleteItem = item
-      .filter((t) => t.id !== id)
-      .map((t, i) => ({ ...t, id: i + 1 }));
-    setItem(deleteItem);
-  }
-
-  // Add or update item
-  function handleAddOrSaveData() {
+  // ✅ Add or Update
+  const handleAddOrSaveData = () => {
+    if (!newItem.trim()) return;
     if (isEditing) {
-      const newListItem = item.map((t) =>
-        t.id === currentElementId ? { ...t, name: newItem } : t
+      setItem((prev) =>
+        prev.map((t) =>
+          t.id === editId ? { ...t, name: newItem } : t
+        )
       );
-      setItem(newListItem);
-      setCurrentElementId(null);
-      setNewItem("");
       setIsEditing(false);
+      setEditId(null);
     } else {
-      if (newItem.trim() === "") return; // avoid empty item
-      setItem([
-        ...item,
-        { id: item.length + 1, name: newItem, checked: false },
+      setItem((prev) => [
+        ...prev,
+        { id: Date.now(), name: newItem, checked: false },
       ]);
-      setNewItem("");
     }
-  }
+    setNewItem("");
+  };
+
+  // ✅ Delete
+  const handleDelete = (id) => {
+    setItem(item.filter((t) => t.id !== id));
+  };
+
+  // ✅ Edit
+  const handleEditSave = (id) => {
+    const todo = item.find((t) => t.id === id);
+    setNewItem(todo.name);
+    setIsEditing(true);
+    setEditId(id);
+  };
+
+  // ✅ Toggle check
+  const handleChange = (id) => {
+    setItem((prev) =>
+      prev.map((t) =>
+        t.id === id ? { ...t, checked: !t.checked } : t
+      )
+    );
+  };
 
   return (
-    <div className="todo-list">
-      <h1>Todo List</h1>
+    <div className="p-6 flex justify-center items-center ">
+      <div className="todo-list bg-white shadow-lg rounded-lg  p-6">
+        <h1 className="text-2xl font-bold mb-4">Todo List</h1>
 
-      {/* Input + Button */}
-      <div>
-        <input
-          type="text"
-          placeholder="Add new item"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-        />
-        <button onClick={handleAddOrSaveData}>
-          {isEditing ? "Update" : "Add"}
-        </button>
-      </div>
-
-      {/* List */}
-      <ul>
-        {item.map((t) => (
-          <li key={t.id}>
-            <input
-              type="checkbox"
-              checked={t.checked}
-              onChange={() => handleChange(t.id)}
-            />
-            <label style={{ color: t.checked ? "#aaa" : "#333" }}>
-              {t.name}
-            </label>
-
-            <GrView
-              role="button"
-              className="view icon"
-              onClick={() => setGetViewItem(t)}
-            />
-            <FaEdit
-              role="button"
-              onClick={() => handleEditSave(t.id)}
-              className="icon edit"
-            />
-            <MdDeleteForever
-              role="button"
-              onClick={() => handleDelete(t.id)}
-              className="icon delete"
-            />
-          </li>
-        ))}
-      </ul>
-
-      {/* View Item */}
-      {getViewItem && (
-        <div className="view-item">
-          <h3>View Todo</h3>
-          <p>
-            <strong>ID:</strong> {getViewItem.id}
-          </p>
-          <p>
-            <strong>Name:</strong> {getViewItem.name}
-          </p>
-          <p>
-            <strong>Completed:</strong> {getViewItem.checked ? "Yes" : "No"}
-          </p>
-          <button onClick={() => setGetViewItem(null)}>Close</button>
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            placeholder="Add new item"
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
+            className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            onClick={handleAddOrSaveData}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            {isEditing ? "Update" : "Add"}
+          </button>
         </div>
-      )}
+
+        {/* Scrollable List */}
+        <ul className="max-h-60 overflow-y-auto space-y-3 pr-2">
+          {item.map((t) => (
+            <li
+              key={t.id}
+              className="flex justify-between items-center bg-gray-50 px-3 py-2 rounded shadow-sm"
+            >
+              {/* Left side: checkbox + text */}
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={t.checked}
+                  onChange={() => handleChange(t.id)}
+                  className="h-5 w-5 cursor-pointer accent-blue-500"
+                />
+                <label
+                  className={`text-base ${
+                    t.checked ? "line-through text-gray-400" : "text-gray-800"
+                  }`}
+                >
+                  {t.name}
+                </label>
+              </div>
+
+              {/* Right side: icons */}
+              <div className="flex gap-3 text-xl">
+                <GrView
+                  role="button"
+                  className="text-green-600 cursor-pointer hover:scale-110 transition-transform"
+                  onClick={() => setGetViewItem(t)}
+                />
+                <FaEdit
+                  role="button"
+                  onClick={() => handleEditSave(t.id)}
+                  className="text-blue-600 cursor-pointer hover:scale-110 transition-transform"
+                />
+                <MdDeleteForever
+                  role="button"
+                  onClick={() => handleDelete(t.id)}
+                  className="text-red-600 cursor-pointer hover:scale-110 transition-transform"
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {getViewItem && (
+          <div className="mt-4 p-4 border rounded bg-gray-50 shadow-md">
+            <h3 className="text-lg font-semibold mb-2">View Todo</h3>
+            <p>
+              <strong>ID:</strong> {getViewItem.id}
+            </p>
+            <p>
+              <strong>Name:</strong> {getViewItem.name}
+            </p>
+            <p>
+              <strong>Completed:</strong>{" "}
+              {getViewItem.checked ? "Yes ✅" : "No ❌"}
+            </p>
+            <button
+              onClick={() => setGetViewItem(null)}
+              className="mt-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+            >
+              Close
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
