@@ -2,7 +2,7 @@ import React from "react";
 import useFetch from "../../custom-hooks/fetch";
 
 const Product_list = () => {
-  const { product, error, loading } = useFetch("https://fakestoreapi.com/products");
+  const { product, error, loading } = useFetch("http://localhost:4000/product");
 
   return (
     <div className="p-6">
