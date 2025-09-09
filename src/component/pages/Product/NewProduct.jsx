@@ -36,19 +36,68 @@ const NewProduct = () => {
 
   let handleChange = (e) => {
 
-    let {value,name} = e.target
-    console.log(value,name);
-    
-    
+    let { value, name } = e.target
+
+    let fieldName = name.split("rating.")[1]
+    console.log(fieldName);
+
+
+    if (name.includes("rating.")) {
+      setNewProduct({
+        ...newProduct,
+        rating: {
+          ...newProduct.rating,
+          [fieldName]: value
+        }
+      })
+
+    } else {
+
+      setNewProduct({
+        ...newProduct,
+        [name]: value
+      })
+    }
+
 
   };
+
+  console.log(newProduct);
+
+
+  let handleAdd = (e) => {
+    e.preventDefault()
+    fetch("http://localhost:4000/product", {
+      method: "POST",
+      headers: {
+        "Content-type": "appilication/json"
+      },
+      body: JSON.stringify(newProduct)
+    })
+      .then(() => {
+        alert("Data Added Sucessufully")
+        setNewProduct({
+          title: "",
+          price: 500,
+          description:
+            "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+          category: "",
+          image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+          rating: {
+            rate: 0,
+            count: 0,
+          },
+        })
+      })
+  }
+
   return (
     <div>
       <Paper elevation={20} style={paperStyle}>
         <Typography variant="h5" textAlign="center">
           Create New Produnct
         </Typography>
-        <Grid component="form" style={{ display: "grid", gap: "20px" }}>
+        <Grid component="form" style={{ display: "grid", gap: "20px" }} onSubmit={handleAdd}>
           <TextField
             value={newProduct.title}
             name="title"
@@ -79,8 +128,8 @@ const NewProduct = () => {
           <Grid container spacing={2}>
             <Grid size={6}>
               <TextField
-                value={newProduct.rating}
-                name="rating_rate"
+                value={newProduct.rating.rate}
+                name="rating.rate"
                 type="number"
                 id="outlined-basic"
                 label="Rate"
@@ -90,8 +139,8 @@ const NewProduct = () => {
             </Grid>
             <Grid size={6}>
               <TextField
-                value={newProduct.count}
-                name="rating_count"
+                value={newProduct.rating.count}
+                name="rating.count"
                 type="number"
                 id="outlined-basic"
                 label="Count"
@@ -100,7 +149,7 @@ const NewProduct = () => {
               />
             </Grid>
           </Grid>
-          <Button variant="contained">Contained</Button>
+          <Button type="submit" variant="contained">Contained</Button>
         </Grid>
       </Paper>
     </div>

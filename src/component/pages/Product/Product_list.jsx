@@ -28,6 +28,10 @@ const Product_list = () => {
                     <p className="text-gray-600">{p.description}</p>
                   </div>
                   <p className="font-bold mt-auto">Price: ${p.price}</p>
+                  <p className="font-bold mt-auto">Price: ${p.rating.rate}</p>
+                  <p className="font-bold mt-auto">Price: ${p.rating.count}</p>
+                  
+
                 </div>
               ))}
             </div>
