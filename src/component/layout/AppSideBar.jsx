@@ -91,8 +91,6 @@ export default function AppSidebar() {
             },
           }}
         >
-
-
           {/* Dashboard */}
           <MenuItem
             icon={<LayoutDashboard size={18} />}
@@ -116,12 +114,6 @@ export default function AppSidebar() {
             className={pathname.startsWith("/product") ? "active" : ""}
           >
             <MenuItem
-              icon={<Package size={16} />}
-              component={<NavLink to="/product" end />}
-            >
-              Overview
-            </MenuItem>
-            <MenuItem
               icon={<List size={16} />}
               component={<NavLink to="/product/list" />}
             >
@@ -134,7 +126,6 @@ export default function AppSidebar() {
               Add New
             </MenuItem>
           </SubMenu>
-         
         </Menu>
       </Sidebar>
     </aside>

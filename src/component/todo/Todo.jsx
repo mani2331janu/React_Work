@@ -12,8 +12,7 @@ const Todo = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [getViewItem, setGetViewItem] = useState(null);
-
-  // ✅ Add or Update
+  
   const handleAddOrSaveData = () => {
     if (!newItem.trim()) return;
     if (isEditing) {
@@ -33,12 +32,11 @@ const Todo = () => {
     setNewItem("");
   };
 
-  // ✅ Delete
+ 
   const handleDelete = (id) => {
     setItem(item.filter((t) => t.id !== id));
   };
 
-  // ✅ Edit
   const handleEditSave = (id) => {
     const todo = item.find((t) => t.id === id);
     setNewItem(todo.name);
@@ -46,7 +44,6 @@ const Todo = () => {
     setEditId(id);
   };
 
-  // ✅ Toggle check
   const handleChange = (id) => {
     setItem((prev) =>
       prev.map((t) =>
