@@ -32,7 +32,6 @@ const Product_list = () => {
             icon: "success",
           });
 
-          // ✅ Update UI
           let newProductList = product.filter((p) => p.id !== id);
           setProduct(newProductList);
         });
@@ -51,7 +50,7 @@ const Product_list = () => {
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
-      ) : (
+      ) : ( 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {product.map((p) => (
             <div

@@ -35,7 +35,6 @@ export default function AppSidebar() {
         <Menu
           menuItemStyles={{
             button: ({ level, active }) => {
-              // 🔹 styles for top-level (Dashboard, Todo, Product label)
               if (level === 0) {
                 return {
                   borderRadius: 8,
@@ -58,17 +57,16 @@ export default function AppSidebar() {
                 };
               }
 
-              // 🔹 styles for submenu children (level 1)
               return {
                 borderRadius: 6,
                 padding: "6px 10px",
                 margin: "4px 8px",
                 fontWeight: active ? 600 : 400,
                 color: "white",
-                backgroundColor: active ? "#333" : "transparent", // dark gray when active
+                backgroundColor: active ? "#333" : "transparent", 
 
                 "&:hover": {
-                  backgroundColor: "#444", // lighter gray hover
+                  backgroundColor: "#444", 
                   color: "white",
                 },
 
@@ -102,7 +100,7 @@ export default function AppSidebar() {
           {/* Todo */}
           <MenuItem
             icon={<CheckSquare size={18} />}
-            component={<NavLink to="/todo" />}
+            component={<NavLink to="todo" />}
           >
             Todo
           </MenuItem>
@@ -110,18 +108,16 @@ export default function AppSidebar() {
           <SubMenu
             label="Product"
             icon={<Package size={18} />}
-            defaultOpen={pathname.startsWith("/product")}
-            className={pathname.startsWith("/product") ? "active" : ""}
           >
             <MenuItem
               icon={<List size={16} />}
-              component={<NavLink to="/product/list" />}
+              component={<NavLink to="product/list" />}
             >
               List
             </MenuItem>
             <MenuItem
               icon={<PlusSquare size={16} />}
-              component={<NavLink to="/product/add" />}
+              component={<NavLink to="product/add" />}
             >
               Add New
             </MenuItem>
