@@ -14,7 +14,6 @@ import {
   List,
   PlusSquare,
 } from "lucide-react";
-
 export default function AppSidebar() {
   const { pathname } = useLocation();
 
